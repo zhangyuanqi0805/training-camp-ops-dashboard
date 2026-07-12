@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bundle the V1.5.4 dashboard with deterministic public entry state."""
+"""Bundle the V1.5.5 public dashboard."""
 
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ def main() -> int:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>训练营经营看板 | V1.5.4 公网默认入口修正</title>
+  <title>训练营经营看板 | V1.5.5 选修作业与同比梯形漏斗</title>
   <style>
 {styles}
   </style>

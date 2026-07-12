@@ -1241,9 +1241,24 @@ button:active,
   gap: 0;
 }
 
+.quota-funnel-columns {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  gap: 8px;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.quota-funnel-columns span:last-child {
+  text-align: right;
+}
+
 .quota-funnel-stage {
   display: grid;
-  grid-template-columns: 104px minmax(0, 1fr) 92px;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
   align-items: center;
   gap: 8px;
   min-height: 34px;
@@ -1269,12 +1284,12 @@ button:active,
   position: absolute;
   inset: 0;
   background: var(--emerald-800);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
   clip-path: polygon(
-    var(--quota-left-top) 0,
-    var(--quota-right-top) 0,
-    var(--quota-right-bottom) 100%,
-    var(--quota-left-bottom) 100%
+    var(--funnel-left-top) 0,
+    var(--funnel-right-top) 0,
+    var(--funnel-right-bottom) 100%,
+    var(--funnel-left-bottom) 100%
   );
   transition: filter 150ms ease;
 }
@@ -1283,21 +1298,25 @@ button:active,
   filter: saturate(1.08) brightness(0.96);
 }
 
-.quota-funnel-label {
+.quota-funnel-value {
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
-  color: var(--emerald-900);
+  z-index: 1;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 42, 36, 0.3);
   white-space: nowrap;
 }
 
-.quota-funnel-label strong {
+.quota-funnel-value strong {
   font-size: 11px;
   font-weight: 900;
 }
 
-.quota-funnel-label b {
+.quota-funnel-value b {
   font-family: var(--font-number);
   font-size: 11px;
 }
@@ -1374,26 +1393,27 @@ button:active,
 }
 
 .quota-funnel-share {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: 5px;
+  display: block;
   color: var(--emerald-900);
+  font-family: var(--font-number);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: left;
   white-space: nowrap;
 }
 
-.quota-funnel-share small {
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
+.quota-funnel-yoy {
+  display: block;
+  font-family: var(--font-number);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: right;
+  white-space: nowrap;
 }
 
-.quota-funnel-share strong {
-  min-width: 42px;
-  font-family: var(--font-number);
-  font-size: 13px;
-  text-align: right;
-}
+.quota-funnel-yoy.positive { color: #087c67; }
+.quota-funnel-yoy.negative { color: #b54d2d; }
+.quota-funnel-yoy.neutral { color: var(--muted); }
 
 .quota-funnel-stage.stage-tone-2 .quota-funnel-shape { background: #176b5d; }
 .quota-funnel-stage.stage-tone-3 .quota-funnel-shape { background: #3f8172; }
@@ -2213,7 +2233,11 @@ button:active,
   }
 
   .quota-funnel-stage {
-    grid-template-columns: 96px minmax(0, 1fr) 84px;
+    grid-template-columns: 64px minmax(0, 1fr) 64px;
+  }
+
+  .quota-funnel-columns {
+    grid-template-columns: 64px minmax(0, 1fr) 64px;
   }
 
   .comparison-cell {
@@ -2337,34 +2361,20 @@ button:active,
   }
 
   .quota-funnel-stage {
-    grid-template-columns: 74px minmax(0, 1fr) 58px;
+    grid-template-columns: 50px minmax(0, 1fr) 56px;
     gap: 4px;
   }
 
-  .quota-funnel-label {
-    display: grid;
-    gap: 0;
-    justify-content: end;
-    text-align: right;
+  .quota-funnel-columns {
+    grid-template-columns: 50px minmax(0, 1fr) 56px;
+    gap: 4px;
   }
 
-  .quota-funnel-label strong,
-  .quota-funnel-label b {
+  .quota-funnel-value strong,
+  .quota-funnel-value b,
+  .quota-funnel-share,
+  .quota-funnel-yoy {
     font-size: 9px;
-  }
-
-  .quota-funnel-share {
-    display: grid;
-    gap: 0;
-    text-align: right;
-  }
-
-  .quota-funnel-share strong {
-    justify-self: end;
-  }
-
-  .quota-funnel-share small {
-    display: none;
   }
 }
 

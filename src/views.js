@@ -680,7 +680,6 @@
     var cutoffRevenue = factValue('revenue', 'cutoff', 'actual_cumulative');
     var cutoffLtv = factValue('ltv', 'cutoff', 'actual_cumulative');
     var ltvDenominator = cutoffRevenue != null && cutoffLtv > 0 ? cutoffRevenue / cutoffLtv : null;
-    var fixture = (C.periodInfo(route.period) || {}).mode === 'fixture';
     var series = [
       {
         id: 'daily-ltv', label: '当日新增LTV', unit: '元/人', color: '#c66328', axis: 'left',
@@ -690,12 +689,9 @@
         })
       },
       {
-        id: 'homework-rate', label: '必修作业率', unit: '%', color: '#d5564d', axis: 'right',
+        id: 'elective-homework-rate', label: '选修作业率', unit: '%', color: '#1f8a70', axis: 'right',
         values: days.map(function (dayKey) {
-          var value = factValue('homework_rate', dayKey, 'actual_daily');
-          if (value != null || !fixture) return value;
-          var question = factValue('daily_question_rate', dayKey, 'actual_daily');
-          return question == null ? null : Math.max(0, Math.min(1, question * 0.96));
+          return factValue('daily_question_rate', dayKey, 'actual_daily');
         })
       },
       {
@@ -755,7 +751,7 @@
     }).join('') + '</div>';
     return '<div class="daily-trend-wrap">' + legend +
       '<div class="daily-trend-tooltip" data-trend-tooltip hidden></div><svg class="daily-operating-trend" viewBox="0 0 ' + width + ' ' + height +
-      '" role="img" aria-label="当日新增LTV、必修作业率和到课率每日趋势"><text x="' + padLeft +
+      '" role="img" aria-label="当日新增LTV、选修作业率和到课率每日趋势"><text x="' + padLeft +
       '" y="18" font-size="10" fill="#9a5a31">左轴 · 元/人</text><text x="' + (width - padRight) +
       '" y="18" text-anchor="end" font-size="10" fill="#58739c">右轴 · 百分比</text>' + grid + lines + labels + '</svg></div>';
   }
@@ -856,6 +852,10 @@
 
   function quotaShareFunnel(route) {
     var nodes = funnelNodes(route);
+    var previousPeriodId = String(Number(route.period) - 1);
+    var previousNodes = FUNNELS.filter(function (node) {
+      return String(node.period_id) === previousPeriodId && node.day_key === route.day;
+    });
     var quotaNode = nodes.find(function (node) { return node.stage_id === 'actual_pool'; }) ||
       nodes.find(function (node) { return /实际规模|总配额/.test(stageLabel(node)); });
     var quotaFact = quotaNode ? FACT_BY_ID[quotaNode.count_fact_id] || {} : {};
@@ -875,7 +875,13 @@
       var fact = FACT_BY_ID[node.count_fact_id] || {};
       var count = finite(fact.value);
       var share = quota && count != null ? Math.max(0, Math.min(1, count / quota)) : null;
-      return { node: node, count: count, share: share, label: definition.label, tone: definition.tone || 'engagement' };
+      var previousNode = previousNodes.find(function (candidate) { return candidate.stage_id === node.stage_id; });
+      var previousCount = previousNode ? finite((FACT_BY_ID[previousNode.count_fact_id] || {}).value) : null;
+      var yearOverYear = previousCount > 0 && count != null ? count / previousCount - 1 : null;
+      return {
+        node: node, count: count, share: share, previousCount: previousCount, yearOverYear: yearOverYear,
+        label: definition.label, tone: definition.tone || 'engagement'
+      };
     }).filter(Boolean);
 
     if (!quota || !stages.length) {
@@ -883,14 +889,19 @@
         copy(themeFor(route.day).focus) + '</p></div>';
     }
 
+    var lowerBaseWidth = 46;
+    var widthStep = (100 - lowerBaseWidth) / stages.length;
     return '<div class="quota-funnel-head"><span>八个经营节点使用同一分母</span><strong>总配额 ' +
-      h(formatPlain(quota, 'students')) + '人</strong></div><div class="quota-funnel" role="list" aria-label="总配额占比漏斗">' +
+      h(formatPlain(quota, 'students')) + '人</strong></div>' +
+      '<div class="quota-funnel-columns"><span></span><span>本期人数</span><span>同比上一期</span></div>' +
+      '<div class="quota-funnel" role="list" aria-label="总配额占比漏斗">' +
       stages.map(function (stage, index) {
         var exactShare = stage.share == null ? '阶段观察' : (stage.share * 100).toFixed(1) + '%';
-        var topWidth = stage.share == null ? 0 : Math.max(0, Math.min(100, stage.share * 100));
-        var nextStage = stages[index + 1];
-        var bottomWidth = nextStage && nextStage.share != null ? Math.max(0, Math.min(100, nextStage.share * 100)) :
-          Math.max(3, topWidth * 0.72);
+        var yearOverYearText = stage.yearOverYear == null ? '—' :
+          (stage.yearOverYear >= 0 ? '+' : '') + (stage.yearOverYear * 100).toFixed(1) + '%';
+        var yearOverYearClass = stage.yearOverYear == null ? 'neutral' : stage.yearOverYear >= 0 ? 'positive' : 'negative';
+        var topWidth = 100 - index * widthStep;
+        var bottomWidth = 100 - (index + 1) * widthStep;
         var leftTop = (100 - topWidth) / 2;
         var rightTop = 100 - leftTop;
         var leftBottom = (100 - bottomWidth) / 2;
@@ -899,13 +910,13 @@
         return '<a class="quota-funnel-stage stage-tone-' + (index + 1) + ' ' + h(stage.tone) + '" role="listitem" href="' +
           h(href) + '" data-funnel-stage="' + h(stage.node.stage_id) + '" aria-label="' +
           h(stage.label + ' ' + formatPlain(stage.count, 'students') + '人，占总配额 ' + exactShare) + '">' +
-          '<span class="quota-funnel-label"><strong>' + copy(stage.label) + '</strong><b>' +
-          h(formatPlain(stage.count, 'students')) + '人</b></span><span class="quota-funnel-visual">' +
-          '<span class="quota-funnel-shape" style="--quota-top:' + h(topWidth.toFixed(1)) + ';--quota-bottom:' +
-          h(bottomWidth.toFixed(1)) + ';--quota-left-top:' + h(leftTop.toFixed(2)) + '%;--quota-right-top:' +
-          h(rightTop.toFixed(2)) + '%;--quota-left-bottom:' + h(leftBottom.toFixed(2)) + '%;--quota-right-bottom:' +
-          h(rightBottom.toFixed(2)) + '%"></span></span>' +
-          '<span class="quota-funnel-share"><small>占总配额</small><strong>' + h(exactShare) + '</strong></span></a>';
+          '<span class="quota-funnel-share">' + h(exactShare) + '</span><span class="quota-funnel-visual">' +
+          '<span class="quota-funnel-shape" style="--funnel-left-top:' + h(leftTop.toFixed(2)) +
+          '%;--funnel-right-top:' + h(rightTop.toFixed(2)) + '%;--funnel-left-bottom:' +
+          h(leftBottom.toFixed(2)) + '%;--funnel-right-bottom:' + h(rightBottom.toFixed(2)) + '%"></span>' +
+          '<span class="quota-funnel-value"><strong>' + copy(stage.label) + '</strong> <b>' +
+          h(formatPlain(stage.count, 'students')) + '人</b></span></span>' +
+          '<span class="quota-funnel-yoy ' + h(yearOverYearClass) + '">' + h(yearOverYearText) + '</span></a>';
       }).join('') + '</div>';
   }
 
@@ -1044,7 +1055,7 @@
       '<article class="card span-7"><div class="card-title"><span class="eyebrow">每日经营三指标</span>' +
       homeDataBadge(route, '逐日实际') + '</div><div class="chart-wrap daily-trend-wrap">' +
       dailyOperatingTrendChart(route) +
-      '</div><p class="chart-caption">当日新增LTV看价值峰值；必修作业率与到课率看学习参与，切换营期或经营日后同步更新。</p></article>' +
+      '</div><p class="chart-caption">当日新增LTV看价值峰值；选修作业率与到课率看学习参与，切换营期或经营日后同步更新。</p></article>' +
       '<article class="card span-5 quota-funnel-card"><div class="card-title"><span class="eyebrow">总配额占比漏斗</span>' +
       homeDataBadge(route, '统一分母') + '</div>' + quotaShareFunnel(route) + '</article>' +
       '<article class="card span-8"><div class="card-title"><span class="eyebrow">班级营收前五</span>' +
@@ -1662,7 +1673,7 @@
           (route.module === item.id ? 'active' : '') + '" aria-label="' + h(item.label) + '" title="' + h(item.label) + '">' +
           '<span class="nav-icon">' + h(item.icon) + '</span><span class="nav-label">' + copy(item.label) + '</span></a>';
       }).join('') + '</nav><div class="side-card"><strong>' + h(route.period) +
-      '期</strong>页面版本 V1.5.4<br>' + copy(dayInfo(route.day).label + ' · ' + themeFor(route.day).stage) + '</div></aside>';
+      '期</strong>页面版本 V1.5.5<br>' + copy(dayInfo(route.day).label + ' · ' + themeFor(route.day).stage) + '</div></aside>';
   }
 
   function renderContextSidebar(route) {
@@ -1704,7 +1715,7 @@
     return '<div class="' + shellClass + '">' + renderGlobalSidebar(route) + renderContextSidebar(route) +
       '<main class="workspace"><div class="workspace-inner"><header class="workspace-header"><div><div class="breadcrumbs">' +
       copy(contextLabel(route) + ' / ' + moduleInfo(route.module).label) + '</div><h1>' + copy(routeTitle(route)) +
-      '</h1><p class="workspace-subtitle">' + copy(themeFor(route.day).title + ' · V1.5.4 公网默认入口修正') + fixtureBadge + '</p></div>' +
+      '</h1><p class="workspace-subtitle">' + copy(themeFor(route.day).title + ' · V1.5.5 选修作业与同比梯形漏斗') + fixtureBadge + '</p></div>' +
       '<div class="header-actions"><span class="date-chip">' + copy(dateRange) +
       '</span><button class="button primary" type="button" data-print>打印 / 另存 PDF</button></div></header>' +
       renderTimeline(route) + renderWorkspace(route) + '</div></main></div>';
