@@ -1662,7 +1662,7 @@
           (route.module === item.id ? 'active' : '') + '" aria-label="' + h(item.label) + '" title="' + h(item.label) + '">' +
           '<span class="nav-icon">' + h(item.icon) + '</span><span class="nav-label">' + copy(item.label) + '</span></a>';
       }).join('') + '</nav><div class="side-card"><strong>' + h(route.period) +
-      '期</strong>页面版本 V1.5.3<br>' + copy(dayInfo(route.day).label + ' · ' + themeFor(route.day).stage) + '</div></aside>';
+      '期</strong>页面版本 V1.5.4<br>' + copy(dayInfo(route.day).label + ' · ' + themeFor(route.day).stage) + '</div></aside>';
   }
 
   function renderContextSidebar(route) {
@@ -1704,7 +1704,7 @@
     return '<div class="' + shellClass + '">' + renderGlobalSidebar(route) + renderContextSidebar(route) +
       '<main class="workspace"><div class="workspace-inner"><header class="workspace-header"><div><div class="breadcrumbs">' +
       copy(contextLabel(route) + ' / ' + moduleInfo(route.module).label) + '</div><h1>' + copy(routeTitle(route)) +
-      '</h1><p class="workspace-subtitle">' + copy(themeFor(route.day).title + ' · V1.5.3 三指标趋势与倒梯形漏斗') + fixtureBadge + '</p></div>' +
+      '</h1><p class="workspace-subtitle">' + copy(themeFor(route.day).title + ' · V1.5.4 公网默认入口修正') + fixtureBadge + '</p></div>' +
       '<div class="header-actions"><span class="date-chip">' + copy(dateRange) +
       '</span><button class="button primary" type="button" data-print>打印 / 另存 PDF</button></div></header>' +
       renderTimeline(route) + renderWorkspace(route) + '</div></main></div>';

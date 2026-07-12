@@ -1,10 +1,10 @@
 {
   "package": "training-camp-ops-dashboard",
-  "version": "v1.5.3-colleague-pack.1",
+  "version": "v1.5.4-colleague-pack.1",
   "dashboard": {
     "entry": "index.html",
     "offline_page": "dist/dashboard.html",
-    "source_version": "V1.5.3 三指标趋势与倒梯形漏斗"
+    "source_version": "V1.5.4 公网默认入口修正"
   },
   "runtime_data": [
     {

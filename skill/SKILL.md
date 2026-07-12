@@ -17,8 +17,8 @@ Use this skill only for this dashboard package.
 6. Validate with:
 
 ```bash
-python3 -m unittest qa/test_v1_5_3_ui.py -v
-node qa/validate_v1_5_3_trend_funnel.cjs
+python3 -m unittest qa/test_v1_5_4_ui.py -v
+node qa/validate_v1_5_4_entry_state.cjs
 ```
 
 7. Do a clean-folder check before saying the package is ready: copy the folder elsewhere, open `index.html`, and verify the page does not depend on external paths.

@@ -117,8 +117,7 @@
 
   function defaultPeriodId() {
     var allowed = selectablePeriods().map(function (period) { return period.period_id; });
-    var stored = readStoredObject(STORAGE_KEYS.route);
-    var candidates = [stored.period, DATA.metadata.default_period, DATA.metadata.current_period_id, '602'];
+    var candidates = [DATA.metadata.default_period, DATA.metadata.current_period_id, '602'];
     for (var index = 0; index < candidates.length; index += 1) {
       if (allowed.includes(String(candidates[index] || ''))) return String(candidates[index]);
     }
@@ -126,12 +125,21 @@
   }
 
   function defaultDayKey() {
-    var stored = readStoredObject(STORAGE_KEYS.route);
-    var candidates = [stored.day, DATA.metadata.default_day, 'all'];
+    var candidates = [DATA.metadata.default_day, 'all'];
     for (var index = 0; index < candidates.length; index += 1) {
       if (VISIBLE_DAY_KEYS.includes(String(candidates[index] || ''))) return String(candidates[index]);
     }
     return 'all';
+  }
+
+  function directEntryRoute() {
+    return {
+      period: '602',
+      day: 'all',
+      module: 'overview',
+      view: 'home',
+      params: {}
+    };
   }
 
   var DEFAULT_ROUTE = {
@@ -199,14 +207,14 @@
     var readsWindowLocation = hash == null;
     var raw = String(readsWindowLocation ? window.location.hash : hash).replace(/^.*#/, '');
     var search = new URLSearchParams(raw);
-    var stored = readStoredObject(STORAGE_KEYS.route);
-    var route = {
-      period: search.get('period') || stored.period || DEFAULT_ROUTE.period,
-      day: search.get('day') || stored.day || DEFAULT_ROUTE.day,
-      module: search.get('module') || DEFAULT_ROUTE.module,
-      view: search.get('view') || DEFAULT_ROUTE.view,
+    var entry = directEntryRoute();
+    var route = raw ? {
+      period: search.get('period') || entry.period,
+      day: search.get('day') || entry.day,
+      module: search.get('module') || entry.module,
+      view: search.get('view') || entry.view,
       params: {}
-    };
+    } : entry;
     search.forEach(function (value, key) {
       if (!ROUTE_KEYS.includes(key)) route.params[key] = value;
     });
@@ -646,6 +654,7 @@
     VISIBLE_PERIOD_IDS: VISIBLE_PERIOD_IDS,
     VISIBLE_DAY_KEYS: VISIBLE_DAY_KEYS,
     DEFAULT_ROUTE: DEFAULT_ROUTE,
+    directEntryRoute: directEntryRoute,
     STORAGE_KEYS: STORAGE_KEYS,
     escapeHtml: escapeHtml,
     normalizeRoute: normalizeRoute,
