@@ -662,6 +662,104 @@
       area + targetLine + '<polyline points="' + actualLine + '" fill="none" stroke="#006f5d" stroke-width="3"/>' + dots + labels + '</svg>';
   }
 
+  function dailyOperatingTrendChart(route) {
+    var days = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'D11'];
+    var end = route.day === 'all' || route.day === 'cutoff' ? days.length - 1 : days.indexOf(route.day);
+    if (end < 0) end = days.length - 1;
+    days = days.slice(0, end + 1);
+
+    function factValue(metricId, dayKey, valueKind) {
+      var fact = FACTS.find(function (candidate) {
+        return String(candidate.period_id) === String(route.period) && candidate.day_key === dayKey &&
+          candidate.metric_id === metricId && candidate.value_kind === valueKind &&
+          (candidate.dimension_type === 'all' || !candidate.dimension_type);
+      });
+      return fact ? finite(fact.value) : null;
+    }
+
+    var cutoffRevenue = factValue('revenue', 'cutoff', 'actual_cumulative');
+    var cutoffLtv = factValue('ltv', 'cutoff', 'actual_cumulative');
+    var ltvDenominator = cutoffRevenue != null && cutoffLtv > 0 ? cutoffRevenue / cutoffLtv : null;
+    var fixture = (C.periodInfo(route.period) || {}).mode === 'fixture';
+    var series = [
+      {
+        id: 'daily-ltv', label: '当日新增LTV', unit: '元/人', color: '#c66328', axis: 'left',
+        values: days.map(function (dayKey) {
+          var revenue = factValue('revenue', dayKey, 'actual_daily');
+          return revenue != null && ltvDenominator > 0 ? revenue / ltvDenominator : null;
+        })
+      },
+      {
+        id: 'homework-rate', label: '必修作业率', unit: '%', color: '#d5564d', axis: 'right',
+        values: days.map(function (dayKey) {
+          var value = factValue('homework_rate', dayKey, 'actual_daily');
+          if (value != null || !fixture) return value;
+          var question = factValue('daily_question_rate', dayKey, 'actual_daily');
+          return question == null ? null : Math.max(0, Math.min(1, question * 0.96));
+        })
+      },
+      {
+        id: 'attendance-rate', label: '到课率（主课观看）', unit: '%', color: '#3d72b4', axis: 'right',
+        values: days.map(function (dayKey) { return factValue('main_course_rate', dayKey, 'actual_daily'); })
+      }
+    ];
+
+    var width = 720;
+    var height = 258;
+    var padLeft = 56;
+    var padRight = 58;
+    var padTop = 42;
+    var padBottom = 42;
+    var plotWidth = width - padLeft - padRight;
+    var plotHeight = height - padTop - padBottom;
+    var ltvValues = series[0].values.filter(function (value) { return value != null; });
+    var leftMax = Math.max(10, Math.ceil(Math.max.apply(null, ltvValues.concat([1])) / 10) * 10);
+    function x(index) { return padLeft + (days.length <= 1 ? plotWidth / 2 : index * plotWidth / (days.length - 1)); }
+    function yLeft(value) { return padTop + (leftMax - value) * plotHeight / leftMax; }
+    function yRight(value) { return padTop + (1 - value) * plotHeight; }
+    function yFor(seriesRow, value) { return seriesRow.axis === 'left' ? yLeft(value) : yRight(value); }
+
+    var grid = [0, 0.25, 0.5, 0.75, 1].map(function (ratio) {
+      var y = (padTop + ratio * plotHeight).toFixed(1);
+      var leftValue = Math.round(leftMax * (1 - ratio));
+      var rightValue = Math.round(100 * (1 - ratio));
+      return '<line x1="' + padLeft + '" y1="' + y + '" x2="' + (width - padRight) + '" y2="' + y +
+        '" stroke="#eadfce" stroke-width="1"/><text x="' + (padLeft - 10) + '" y="' + (Number(y) + 4) +
+        '" text-anchor="end" font-size="10" fill="#8a7566">' + leftValue + '</text><text x="' +
+        (width - padRight + 10) + '" y="' + (Number(y) + 4) + '" font-size="10" fill="#71809a">' + rightValue + '%</text>';
+    }).join('');
+    var lines = series.map(function (seriesRow) {
+      var entries = seriesRow.values.map(function (value, index) { return { value: value, index: index }; })
+        .filter(function (entry) { return entry.value != null; });
+      if (entries.length < 2) return '';
+      var points = entries.map(function (entry) {
+        return x(entry.index).toFixed(1) + ',' + yFor(seriesRow, entry.value).toFixed(1);
+      }).join(' ');
+      var dots = entries.map(function (entry) {
+        var display = seriesRow.axis === 'left' ? entry.value.toFixed(1) + '元/人' : (entry.value * 100).toFixed(1) + '%';
+        var tooltip = days[entry.index] + ' · ' + seriesRow.label + ' ' + display;
+        return '<circle cx="' + x(entry.index).toFixed(1) + '" cy="' + yFor(seriesRow, entry.value).toFixed(1) +
+          '" r="5" fill="' + seriesRow.color + '" stroke="#fff" stroke-width="2" tabindex="0" data-trend-point="' +
+          h(seriesRow.id) + '" data-tooltip="' + h(tooltip) + '"><title>' + copy(tooltip) + '</title></circle>';
+      }).join('');
+      return '<polyline data-series="' + seriesRow.id + '" points="' + points + '" fill="none" stroke="' +
+        seriesRow.color + '" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>' + dots;
+    }).join('');
+    var labels = days.map(function (dayKey, index) {
+      return '<text x="' + x(index).toFixed(1) + '" y="' + (height - 14) +
+        '" text-anchor="middle" font-size="10" fill="#68736d">' + dayKey + '</text>';
+    }).join('');
+    var legend = '<div class="daily-trend-legend">' + series.map(function (seriesRow) {
+      return '<span><i style="--series-color:' + seriesRow.color + '"></i><strong>' + copy(seriesRow.label) +
+        '</strong><small>' + copy(seriesRow.unit) + '</small></span>';
+    }).join('') + '</div>';
+    return '<div class="daily-trend-wrap">' + legend +
+      '<div class="daily-trend-tooltip" data-trend-tooltip hidden></div><svg class="daily-operating-trend" viewBox="0 0 ' + width + ' ' + height +
+      '" role="img" aria-label="当日新增LTV、必修作业率和到课率每日趋势"><text x="' + padLeft +
+      '" y="18" font-size="10" fill="#9a5a31">左轴 · 元/人</text><text x="' + (width - padRight) +
+      '" y="18" text-anchor="end" font-size="10" fill="#58739c">右轴 · 百分比</text>' + grid + lines + labels + '</svg></div>';
+  }
+
   function detailFact(label, value, note, badge) {
     return '<div class="detail-fact"><div class="card-title"><span class="eyebrow">' + copy(label) +
       '</span>' + (badge || '') + '</div><strong>' + value + '</strong><small>' + copy(note || '') + '</small></div>';
@@ -789,15 +887,24 @@
       h(formatPlain(quota, 'students')) + '人</strong></div><div class="quota-funnel" role="list" aria-label="总配额占比漏斗">' +
       stages.map(function (stage, index) {
         var exactShare = stage.share == null ? '阶段观察' : (stage.share * 100).toFixed(1) + '%';
-        // Compress the visual range so low-share stage labels remain readable; the right column keeps the exact ratio.
-        var displayWidth = stage.share == null ? 42 : Math.max(42, Math.min(100, 38 + stage.share * 62));
+        var topWidth = stage.share == null ? 0 : Math.max(0, Math.min(100, stage.share * 100));
+        var nextStage = stages[index + 1];
+        var bottomWidth = nextStage && nextStage.share != null ? Math.max(0, Math.min(100, nextStage.share * 100)) :
+          Math.max(3, topWidth * 0.72);
+        var leftTop = (100 - topWidth) / 2;
+        var rightTop = 100 - leftTop;
+        var leftBottom = (100 - bottomWidth) / 2;
+        var rightBottom = 100 - leftBottom;
         var href = routeHash(routeWith(route, { module: 'period', view: 'chain', params: { stage: stage.node.stage_id } }));
         return '<a class="quota-funnel-stage stage-tone-' + (index + 1) + ' ' + h(stage.tone) + '" role="listitem" href="' +
           h(href) + '" data-funnel-stage="' + h(stage.node.stage_id) + '" aria-label="' +
           h(stage.label + ' ' + formatPlain(stage.count, 'students') + '人，占总配额 ' + exactShare) + '">' +
-          '<span class="quota-funnel-visual"><span class="quota-funnel-shape" style="--quota-width:' +
-          h(displayWidth.toFixed(1)) + '%"></span><span class="quota-funnel-value"><strong>' + copy(stage.label) +
-          '</strong><b>' + h(formatPlain(stage.count, 'students')) + '人</b></span></span>' +
+          '<span class="quota-funnel-label"><strong>' + copy(stage.label) + '</strong><b>' +
+          h(formatPlain(stage.count, 'students')) + '人</b></span><span class="quota-funnel-visual">' +
+          '<span class="quota-funnel-shape" style="--quota-top:' + h(topWidth.toFixed(1)) + ';--quota-bottom:' +
+          h(bottomWidth.toFixed(1)) + ';--quota-left-top:' + h(leftTop.toFixed(2)) + '%;--quota-right-top:' +
+          h(rightTop.toFixed(2)) + '%;--quota-left-bottom:' + h(leftBottom.toFixed(2)) + '%;--quota-right-bottom:' +
+          h(rightBottom.toFixed(2)) + '%"></span></span>' +
           '<span class="quota-funnel-share"><small>占总配额</small><strong>' + h(exactShare) + '</strong></span></a>';
       }).join('') + '</div>';
   }
@@ -933,12 +1040,11 @@
   }
 
   function matureHomeSection(route) {
-    var revenuePoints = trendPoints('revenue', route, 'cumulative');
     return '<section class="section dashboard-grid mature-home-grid">' +
-      '<article class="card span-7"><div class="card-title"><span class="eyebrow">累计营收 vs 目标</span>' +
-      homeDataBadge(route, '实际与目标') + '</div><div class="chart-wrap">' +
-      lineChart(revenuePoints, 'revenue', { area: true }) +
-      '</div><p class="chart-caption">累计实际与同日目标放在一张图中；切换营期或经营日后同步更新。</p></article>' +
+      '<article class="card span-7"><div class="card-title"><span class="eyebrow">每日经营三指标</span>' +
+      homeDataBadge(route, '逐日实际') + '</div><div class="chart-wrap daily-trend-wrap">' +
+      dailyOperatingTrendChart(route) +
+      '</div><p class="chart-caption">当日新增LTV看价值峰值；必修作业率与到课率看学习参与，切换营期或经营日后同步更新。</p></article>' +
       '<article class="card span-5 quota-funnel-card"><div class="card-title"><span class="eyebrow">总配额占比漏斗</span>' +
       homeDataBadge(route, '统一分母') + '</div>' + quotaShareFunnel(route) + '</article>' +
       '<article class="card span-8"><div class="card-title"><span class="eyebrow">班级营收前五</span>' +
@@ -1556,7 +1662,7 @@
           (route.module === item.id ? 'active' : '') + '" aria-label="' + h(item.label) + '" title="' + h(item.label) + '">' +
           '<span class="nav-icon">' + h(item.icon) + '</span><span class="nav-label">' + copy(item.label) + '</span></a>';
       }).join('') + '</nav><div class="side-card"><strong>' + h(route.period) +
-      '期</strong>页面版本 V1.5.2<br>' + copy(dayInfo(route.day).label + ' · ' + themeFor(route.day).stage) + '</div></aside>';
+      '期</strong>页面版本 V1.5.3<br>' + copy(dayInfo(route.day).label + ' · ' + themeFor(route.day).stage) + '</div></aside>';
   }
 
   function renderContextSidebar(route) {
@@ -1598,7 +1704,7 @@
     return '<div class="' + shellClass + '">' + renderGlobalSidebar(route) + renderContextSidebar(route) +
       '<main class="workspace"><div class="workspace-inner"><header class="workspace-header"><div><div class="breadcrumbs">' +
       copy(contextLabel(route) + ' / ' + moduleInfo(route.module).label) + '</div><h1>' + copy(routeTitle(route)) +
-      '</h1><p class="workspace-subtitle">' + copy(themeFor(route.day).title + ' · V1.5.2 总配额占比漏斗') + fixtureBadge + '</p></div>' +
+      '</h1><p class="workspace-subtitle">' + copy(themeFor(route.day).title + ' · V1.5.3 三指标趋势与倒梯形漏斗') + fixtureBadge + '</p></div>' +
       '<div class="header-actions"><span class="date-chip">' + copy(dateRange) +
       '</span><button class="button primary" type="button" data-print>打印 / 另存 PDF</button></div></header>' +
       renderTimeline(route) + renderWorkspace(route) + '</div></main></div>';
@@ -1646,6 +1752,27 @@
     if (input) input.addEventListener('keydown', function (event) {
       if (event.key === 'Enter') runQuestion(input.value);
     });
+    var trendTooltip = document.querySelector('[data-trend-tooltip]');
+    if (trendTooltip) {
+      document.querySelectorAll('[data-trend-point]').forEach(function (point) {
+        function showTrendTooltip() {
+          var wrap = point.closest('.daily-trend-wrap');
+          if (!wrap) return;
+          var pointRect = point.getBoundingClientRect();
+          var wrapRect = wrap.getBoundingClientRect();
+          var desiredLeft = pointRect.left - wrapRect.left + pointRect.width / 2;
+          trendTooltip.textContent = point.dataset.tooltip || '';
+          trendTooltip.hidden = false;
+          trendTooltip.style.left = Math.max(76, Math.min(wrapRect.width - 76, desiredLeft)) + 'px';
+          trendTooltip.style.top = (pointRect.top - wrapRect.top - 8) + 'px';
+        }
+        function hideTrendTooltip() { trendTooltip.hidden = true; }
+        point.addEventListener('mouseenter', showTrendTooltip);
+        point.addEventListener('focus', showTrendTooltip);
+        point.addEventListener('mouseleave', hideTrendTooltip);
+        point.addEventListener('blur', hideTrendTooltip);
+      });
+    }
   }
 
   function normalizeRoute(route) {

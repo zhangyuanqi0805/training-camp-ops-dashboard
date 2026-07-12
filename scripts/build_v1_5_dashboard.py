@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bundle the V1.5.2 quota-share funnel dashboard into one offline page."""
+"""Bundle the V1.5.3 daily-trend and quota-funnel dashboard into one offline page."""
 
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ def main() -> int:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>训练营经营看板 | V1.5.2 总配额占比漏斗</title>
+  <title>训练营经营看板 | V1.5.3 三指标趋势与倒梯形漏斗</title>
   <style>
 {styles}
   </style>
