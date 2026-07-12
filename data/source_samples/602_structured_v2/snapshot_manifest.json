@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-10T00:00:41",
+  "source_file": "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/04_补充数据/🧡栋梁材项目数据沉淀.xlsx",
+  "output_dir": "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/31_602期结构化数据快照_2026-07-09_v2",
+  "version": "2026-07-09_v2_supplement",
+  "files": [
+    {
+      "file": "supplement_period_overview.csv",
+      "row_count": 2,
+      "description": "跨营期经营总览和脚本计算口径"
+    },
+    {
+      "file": "supplement_target_learners.csv",
+      "row_count": 2,
+      "description": "入营调查和目标学员画像汇总"
+    },
+    {
+      "file": "supplement_course_question_benchmark.csv",
+      "row_count": 58,
+      "description": "D1-D10 主课、必修、每日一问补充指标"
+    },
+    {
+      "file": "supplement_live_benchmark.csv",
+      "row_count": 110,
+      "description": "D4-D7 直播、订金、补款补充指标长表"
+    },
+    {
+      "file": "supplement_conversion_cadence.csv",
+      "row_count": 278,
+      "description": "D4-D11 成交节奏、营业额、LTV 和人群拆分"
+    },
+    {
+      "file": "supplement_actual_ltv_timeline.csv",
+      "row_count": 81,
+      "description": "D4-D12 分时累计 LTV 轨迹"
+    },
+    {
+      "file": "supplement_operations_changes.csv",
+      "row_count": 6,
+      "description": "运营动作、异常、业务语境解释层"
+    },
+    {
+      "file": "supplement_traffic_raw.csv",
+      "row_count": 19,
+      "description": "流量数据沉淀 raw 长表，营期归属未确认"
+    },
+    {
+      "file": "supplement_reference_links.csv",
+      "row_count": 4,
+      "description": "常用文件和外部资料链接"
+    },
+    {
+      "file": "supplement_sparse_raw.csv",
+      "row_count": 519,
+      "description": "暂未稳定建模的补充 sheet 稀疏原始单元格"
+    }
+  ],
+  "known_issue_count": 13
+}

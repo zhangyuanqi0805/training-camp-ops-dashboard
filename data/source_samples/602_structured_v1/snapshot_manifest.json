@@ -1,0 +1,27 @@
+{
+  "campaign_id": "602",
+  "generated_at": "2026-07-08T19:43:39",
+  "source_dir": "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/01_原始Excel",
+  "output_dir": "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/30_602期结构化数据快照_2026-07-08",
+  "files": {
+    "classes.csv": 14,
+    "students.csv": 1103,
+    "pre_camp_touch.csv": 17,
+    "advanced_orders.csv": 115,
+    "learning_daily.csv": 110,
+    "live_sessions_raw.csv": 2193,
+    "data_quality_issues.md": null
+  },
+  "key_metrics": {
+    "official_class_count": 14,
+    "official_student_count": 1021,
+    "quota_total": 1022,
+    "paid_order_rows": 115,
+    "paid_order_amount": 346300.0,
+    "official_paid_order_rows": 110,
+    "official_paid_order_amount": 333800.0,
+    "live_raw_na_class_rows": 347,
+    "live_resolved_class_rows": 88,
+    "live_unresolved_class_rows": 259
+  }
+}

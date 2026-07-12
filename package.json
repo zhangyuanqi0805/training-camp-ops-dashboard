@@ -1,0 +1,13 @@
+{
+  "name": "training-camp-ops-dashboard",
+  "version": "1.5.2",
+  "private": false,
+  "description": "Offline operations dashboard package for the 10-day training camp.",
+  "scripts": {
+    "build": "python3 scripts/build_v1_5_dashboard.py",
+    "test:unit": "python3 -m unittest qa/test_v1_5_2_ui.py -v",
+    "test:browser": "node qa/validate_v1_5_2_quota_funnel.cjs",
+    "test:package": "python3 qa/validate_package_integrity.py",
+    "test": "python3 qa/validate_package_integrity.py && python3 -m unittest qa/test_v1_5_2_ui.py -v && node qa/validate_v1_5_2_quota_funnel.cjs"
+  }
+}

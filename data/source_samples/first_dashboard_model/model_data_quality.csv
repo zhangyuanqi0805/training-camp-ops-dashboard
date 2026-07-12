@@ -1,0 +1,66 @@
+﻿model,layer,issue,severity,confidence,visibility,source_files,recommended_action
+data_quality,V1六表事实层,正式班级配额合计为 `1022`，正式 14 班明细人数为 `1021`；两者相差 `1`。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`602期63班` 配额 `80`，明细 `79`，差异 `1`。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,后台名单中存在非正式 14 班记录 `82` 条，第一版默认不纳入正式经营盘。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`602期101班`：79 条。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`602期171班`：2 条。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`602期55班`：1 条。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,进阶表支付完成总额 `346300`，正式 14 班营收 `333800`；非正式班级金额 `12500` 需单列。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`测试102班`：3 单，金额 4470。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`601期179班`：1 单，金额 1490。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`(空白)`：1 单，金额 6540。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`200订金订单` sheet 的 Excel 使用区域被记录为百万行级，不能按 `max_row` 直接全量读取；需要识别真实非空区域。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,三场直播明细中存在原始班级为 `#N/A` 或空的记录；本快照已尝试用 `unionId` 桥接回填。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,原始班级缺失/异常 `347` 条；已回填 `88` 条；仍未回填 `259` 条。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,D1/D2 日报表中带班学员配额为 1022，D3-D10 多处为 1021；趋势看板必须保留每日分母字段。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,测评字段的完成取值需要确认，不能简单用非空判断完成。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,ROI、CAC 缺少投放成本表，不得填具体值。,high,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`绩效表` 包含提成、税前绩效、身份证号、银行账号等强敏感字段，仅限内部口径核验。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,`退费` sheet 当前只有表头；当前营收是支付完成金额，不是扣退费后的净收入。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,6027 人上游原始流量池未在当前 6 个 Excel 中看到完整行级表，不能作为看板分母。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,结构化 CSV 不写明文手机号、uid、unionid、订单号，只保留哈希键用于内部匹配。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,直播标签不展开原文，只保留标签数量。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V1六表事实层,默认看板口径只使用正式 14 班；非正式班级单独标记。,medium,high,internal_only,data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 601期 的 ltv_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 601期 的 cac_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 601期 的 roi_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 601期 的 class_total_quota_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 601期 的 internal_total_quota_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 602期 的 ltv_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 602期 的 cac_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 602期 的 roi_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 602期 的 class_total_quota_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,营期整体数据 602期 的 internal_total_quota_cached 是公式单元格但缓存值为空，已给出脚本计算值或公式，正式口径需核验。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,602期营期整体数据进阶金额 346300 与 V1 进阶表支付完成全口径总额 346300 对齐，但不等于官方 14 班口径 333800；看板必须区分全口径和官方班级口径。,high,high,external_scope_note_required,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,主课和每日一问表头存在 `D每日一问`，已按所在位置推断为 D7 每日一问，需人工确认。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,V2补充对照层,流量数据沉淀 sheet 的有效数据行未见营期标签，已按 period_unconfirmed 输出，不能直接归入 602。,medium,high,internal_only,supplement_data_quality_issues.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,本期经营结果是否健康。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,学员是否被激活。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,直播和成交节奏是否匹配。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,哪些班级、渠道、人群值得重点看。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,哪些数据口径现在不能乱用。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,核心 KPI 卡：全口径进阶金额、官方班级进阶金额、最终 LTV、官方班级 LTV、官方班级人数。,high,high,external_scope_note_required,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,口径切换提示：全口径 vs 官方 14 班。,high,high,external_scope_note_required,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,数据质量提示：CAC/ROI 未核准，不进入对外 KPI 卡。,high,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,开营前触达漏斗：加好友、进群、开口。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,D1-D10 学习趋势：主课、必修、每日一问。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,班级异常排行：低开口班、低学习班。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,D4-D6 到课/完课。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,D4-D11及后续日营业额。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,直播事故和营销动作标注。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,班级营收排行。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,班级 LTV 排行。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,开口率 vs LTV 散点。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,低触达/高成交、低触达/低成交两类班级标记。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,全口径/官方班级口径对照。,high,high,external_scope_note_required,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,成本/CAC/ROI 待确认。,high,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,流量 raw 营期未确认。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,公式缓存为空和 D7 每日一问题头修正说明。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,不应承诺精确 ROI，因为成本来源和渠道归属未核准。,high,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,不应承诺每个渠道的真实 CAC，因为 `supplement_traffic_raw.csv` 无营期标签。,high,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,不应承诺“直播导致成交”，只能先展示直播与成交的时间关系。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,不应承诺“学习行为导致成交”，除非后续完成学员级桥接。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,不应把全口径 346300 和官方班级 333800 混写成一个收入口径。,high,high,external_scope_note_required,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,看板问题清单,不应把补充表里的内部事故、个人安排、教练绩效放进对外展示页。,medium,high,internal_only,602期看板可回答问题清单.md,页面展示前必须保留口径说明；高风险项不要进入对外KPI卡。
+data_quality,模型规则,全口径进阶金额 346300 与官方14班进阶金额 333800 必须分开展示。,high,high,external_scope_note_required,advanced_orders.csv; supplement_period_overview.csv,首屏卡片同时展示两套口径，禁止混写。
+data_quality,模型规则,CAC、ROI、广告费用、渠道成本只能作为内部线索，成本来源和覆盖范围核准前不能对外展示。,high,high,internal_only,supplement_period_overview.csv; supplement_traffic_raw.csv,放入内部口径说明页，等待成本表核准。

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>训练营经营看板</title>
+  <style>
+    :root{--forest:#003f36;--deep:#002b28;--emerald:#006b58;--copper:#b85d28;--paper:#f7f1e7;--panel:#fffdf8;--line:#dfd1bb;--ink:#14201d;--muted:#66716d}
+    *{box-sizing:border-box;letter-spacing:0}
+    body{margin:0;min-height:100vh;padding:28px;display:grid;place-items:center;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+    main{width:min(1040px,100%);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,.8fr);overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 24px 70px rgba(49,35,15,.13)}
+    .summary{padding:42px;background:var(--deep);color:#fff}
+    .brand{font-size:14px;font-weight:800;color:#d3e5df}
+    .summary h1{margin:16px 0 10px;font-size:40px;line-height:1.15}
+    .summary p{margin:0;max-width:640px;color:#dce8e4;line-height:1.7}
+    .context{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+    .context span{padding:7px 10px;border:1px solid rgba(255,255,255,.22);border-radius:6px;background:rgba(255,255,255,.07);font-size:12px;color:#f8e8ca}
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:28px}
+    .fact{min-width:0;padding:13px;border-top:2px solid var(--copper);background:rgba(255,255,255,.07)}
+    .fact small{display:block;color:#bcd3cc}
+    .fact strong{display:block;margin-top:5px;color:#fff3dd;font-size:22px}
+    .fact:last-child{grid-column:1/-1}
+    .actions{padding:38px;display:grid;align-content:center;gap:14px}
+    .version{width:max-content;padding:5px 9px;border:1px solid #b9d2c8;border-radius:999px;background:#edf7f2;color:var(--forest);font-size:12px;font-weight:850}
+    .actions h2{margin:4px 0 0;font-size:24px}
+    .actions p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+    .button{min-height:48px;display:flex;align-items:center;justify-content:center;padding:0 16px;border-radius:7px;text-decoration:none;font-weight:850}
+    .primary{background:var(--emerald);color:#fff;box-shadow:0 12px 26px rgba(0,78,65,.2)}
+    .primary:hover{background:var(--forest)}
+    .secondary{border:1px solid var(--line);background:#fff9ef;color:var(--forest)}
+    .note{padding:10px 0 0 12px;border-left:3px solid var(--copper);color:#77543e!important}
+    @media(max-width:760px){body{padding:14px}main{grid-template-columns:1fr}.summary,.actions{padding:26px}.summary h1{font-size:30px}}
+  </style>
+</head>
+<body>
+  <main>
+    <section class="summary">
+      <div class="brand">10天点燃孩子内驱力 · 训练营经营工作台</div>
+      <h1>训练营经营看板</h1>
+      <p>按营期和经营日切换，围绕目标、实际、达成、同期、风险与动作完成从总览到班级、学习、财务和问答的经营闭环。</p>
+      <div class="context">
+        <span>601-607 营期切换</span>
+        <span>整期至截单 14 时点</span>
+        <span>双侧栏导航</span>
+        <span>离线可打开</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><small>可切换营期</small><strong>7</strong></div>
+        <div class="fact"><small>经营时点</small><strong>14</strong></div>
+        <div class="fact"><small>当前版本</small><strong>V1.5.2</strong></div>
+      </div>
+    </section>
+    <section class="actions">
+      <span class="version">同事交付包 · V1.5.2</span>
+      <h2>打开当前可用版</h2>
+      <p>八个经营节点统一以本营期总配额为分母，直接查看各层人数与占比。包内已经包含页面、源码、运行数据、样例数据和验收脚本。</p>
+      <a class="button primary" href="dist/dashboard.html#period=602&amp;day=all&amp;module=overview&amp;view=home">打开经营看板</a>
+      <a class="button secondary" href="docs/使用说明.md">查看使用说明</a>
+      <p class="note">本入口不依赖原项目目录；下载或解压后保持文件夹结构不变即可打开。</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,4 @@
+campaign_id,scope,channel_name,cost_type,amount,attribution_base,status,notes
+801,campaign,,总成本,67412,有效人数,actual,总盘成本
+801,channel,视频号直播,投放费,4200,有效人数,actual,渠道成本
+801,channel,cpa,代理费,9000,有效人数,actual,

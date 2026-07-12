@@ -1,0 +1,4 @@
+campaign_id,day_no,base_count,attended_count,completed_count,replay_count,status,notes
+801,D1,1437,812,528,,actual,回看可为空
+801,D2,1437,741,457,124,actual,
+801,D6,1437,348,96,55,actual,

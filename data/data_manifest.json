@@ -1,0 +1,39 @@
+{
+  "package": "training-camp-ops-dashboard",
+  "version": "v1.5.2-colleague-pack.1",
+  "dashboard": {
+    "entry": "index.html",
+    "offline_page": "dist/dashboard.html",
+    "source_version": "V1.5.2 总配额占比漏斗"
+  },
+  "runtime_data": [
+    {
+      "path": "data/runtime/dashboard_data_v1_5.json",
+      "role": "dashboard runtime dataset",
+      "notes": "正式页面构建时嵌入该 JSON。"
+    },
+    {
+      "path": "data/runtime/source_map_v1_5.md",
+      "role": "source and formula map",
+      "notes": "记录指标来源、公式、边界和风险。"
+    },
+    {
+      "path": "data/runtime/assumption_registry_v1_5.json",
+      "role": "assumption registry",
+      "notes": "记录假设、推算和占位数据。"
+    }
+  ],
+  "source_samples": [
+    "data/source_samples/602_structured_v1",
+    "data/source_samples/602_structured_v2",
+    "data/source_samples/first_dashboard_model",
+    "data/source_samples/import_templates",
+    "data/source_samples/metric_dictionary"
+  ],
+  "packaging_rules": [
+    "No symlinks are allowed in the colleague package.",
+    "The package must open offline from index.html.",
+    "The dashboard must not depend on files outside this folder.",
+    "Assumed data must stay distinguishable from real and calculated data."
+  ]
+}

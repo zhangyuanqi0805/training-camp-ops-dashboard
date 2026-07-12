@@ -1,0 +1,8 @@
+﻿model,metric_id,metric_name,value,display_value,unit,scope,status,confidence,visibility,source_files,definition
+overview,full_scope_revenue,全口径进阶金额,346300.0,"346,300",yuan,all_paid_orders,usable,high,external_with_scope_note,advanced_orders.csv; supplement_period_overview.csv,支付完成全口径进阶金额；包含非官方班级、测试或空班等边界项。
+overview,official_class_revenue,官方14班进阶金额,333800.0,"333,800",yuan,official_14_classes,usable,high,external_with_scope_note,advanced_orders.csv; classes.csv,支付完成且 official_class=1 的订单金额。
+overview,supplement_final_ltv,补充表最终LTV,338.2,338.2,yuan_per_person,supplement_formula_scope,usable_with_definition_note,medium,external_with_scope_note,supplement_actual_ltv_timeline.csv,补充表 `实际LTV` 截单最终LTV；分母需和官方班级LTV分开说明。
+overview,official_class_ltv_actual,官方14班LTV,326.934378,326.93,yuan_per_person,official_14_classes_actual_students,usable,high,external_with_scope_note,advanced_orders.csv; classes.csv,官方14班进阶金额 / 官方14班实际学员数；配额口径为 333800 / 1022 = 326.61。
+overview,official_student_count,官方14班实际学员数,1021,1021,students,official_14_classes,usable,high,external_with_scope_note,classes.csv; students.csv,classes.csv 中 14 个正式班级的 actual_student_count 合计。
+overview,target_age_fit_rate,目标年龄适配率,0.796518,79.7%,rate,survey_age_judgeable,usable_with_caveat,medium,internal_or_external_with_caveat,supplement_target_learners.csv,适龄人数 / 可判断孩子年龄人数；适龄规则需回源核验。
+overview,roi_computed_unconfirmed,ROI线索,3.687098,3.69,ratio,supplement_ad_cost_scope_unconfirmed,needs_confirmation,low,internal_only,supplement_period_overview.csv,补充表进阶金额 / 广告费用；成本来源和覆盖范围未核准，不能对外展示。

@@ -1,0 +1,4 @@
+campaign_id,scope,channel_name,class_name,base_count,advanced_count,paid_count,gmv,status,notes
+801,campaign,,,1437,27,,143300,actual,总盘成交与进阶
+801,channel,视频号直播,,68,2,,12000,actual,渠道拆分可选
+801,class,,801期30班,42,5,,25000,actual,班级拆分可选

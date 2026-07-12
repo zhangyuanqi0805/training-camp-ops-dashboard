@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-07-10T00:17:10",
+  "version": "dashboard_models_v1_2026-07-10",
+  "package_dir": "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08",
+  "input_dirs": [
+    "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/30_602期结构化数据快照_2026-07-08",
+    "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/31_602期结构化数据快照_2026-07-09_v2"
+  ],
+  "output_dir": "PROJECT_WORKSPACE/10天点燃孩子内驱力实战营/20_小数_数据分析/30_数据源/602期_6027来源数据包_2026-07-08/40_第一版看板数据模型_2026-07-10",
+  "files": [
+    {
+      "file": "model_overview.csv",
+      "row_count": 7,
+      "description": "首屏经营总览 KPI 和内部风险卡"
+    },
+    {
+      "file": "model_pre_camp_activation.csv",
+      "row_count": 17,
+      "description": "开营前加好友、进群、开口漏斗和班级触达排行"
+    },
+    {
+      "file": "model_learning_trend.csv",
+      "row_count": 139,
+      "description": "D1-D10 学习趋势、渠道/人群拆分"
+    },
+    {
+      "file": "model_live_to_conversion.csv",
+      "row_count": 27,
+      "description": "三场直播到课/完课与成交节奏"
+    },
+    {
+      "file": "model_class_performance.csv",
+      "row_count": 14,
+      "description": "14 个正式班级营收、LTV 和触达表现"
+    },
+    {
+      "file": "model_data_quality.csv",
+      "row_count": 65,
+      "description": "看板口径风险、展示边界和质量问题"
+    }
+  ],
+  "primary_json": "dashboard_data_v1.json",
+  "model_count": 6
+}
