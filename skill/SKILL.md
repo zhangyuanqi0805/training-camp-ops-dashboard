@@ -17,8 +17,9 @@ Use this skill only for this dashboard package.
 6. Validate with:
 
 ```bash
-python3 -m unittest qa/test_v1_5_4_ui.py -v
-node qa/validate_v1_5_4_entry_state.cjs
+python3 qa/validate_package_integrity.py
+node qa/validate_v1_5_6_functionality.cjs
+node qa/validate_v1_5_6_all_routes.cjs
 ```
 
 7. Do a clean-folder check before saying the package is ready: copy the folder elsewhere, open `index.html`, and verify the page does not depend on external paths.

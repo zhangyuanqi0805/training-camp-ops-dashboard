@@ -1,6 +1,6 @@
 # 训练营经营看板
 
-这是 `10天点燃孩子内驱力实战营` 的训练营经营看板同事交付包，当前版本为 `V1.5.5`。
+这是 `10天点燃孩子内驱力实战营` 的训练营经营看板同事交付包，当前版本为 `V1.5.6`。
 
 ## 快速打开
 
@@ -39,8 +39,8 @@
 
 ```bash
 python3 scripts/build_v1_5_dashboard.py
-python3 -m unittest qa/test_v1_5_5_ui.py -v
-node qa/validate_v1_5_5_dashboard.cjs
+node qa/validate_v1_5_6_functionality.cjs
+node qa/validate_v1_5_6_all_routes.cjs
 ```
 
 ## 当前版本说明
@@ -48,4 +48,4 @@ node qa/validate_v1_5_5_dashboard.cjs
 - 7 个营期：601-607。
 - 14 个经营时点：整期、开营前、D1-D11、截单。
 - 一级模块：经营总览、营期经营、跨期对比、班级与学员、学习运营、财务效率、数据问答、内部工具。
-- V1.5.5 重点：每日曲线改为当日新增 LTV、选修作业率、到课率；总配额漏斗改为完整等腰梯形，并在右侧展示同比上一期。
+- V1.5.6 重点：保留 V1.5.5 的全部数据和交互，把已确认的 01B Pro 蓝紫极光视觉系统应用到全部 30 个页面。

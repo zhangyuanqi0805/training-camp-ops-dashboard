@@ -5,30 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>训练营经营看板</title>
   <style>
-    :root{--forest:#003f36;--deep:#002b28;--emerald:#006b58;--copper:#b85d28;--paper:#f7f1e7;--panel:#fffdf8;--line:#dfd1bb;--ink:#14201d;--muted:#66716d}
+    :root{--blue:#2864e8;--violet:#874fd4;--teal:#10a79b;--paper:#eef5ff;--panel:rgba(255,255,255,.72);--line:rgba(255,255,255,.82);--ink:#10182a;--muted:#667086}
     *{box-sizing:border-box;letter-spacing:0}
-    body{margin:0;min-height:100vh;padding:28px;display:grid;place-items:center;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
-    main{width:min(1040px,100%);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,.8fr);overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 24px 70px rgba(49,35,15,.13)}
-    .summary{padding:42px;background:var(--deep);color:#fff}
-    .brand{font-size:14px;font-weight:800;color:#d3e5df}
+    body{margin:0;min-height:100vh;padding:28px;display:grid;place-items:center;background:radial-gradient(circle at 82% 10%,rgba(210,147,255,.42),transparent 32%),radial-gradient(circle at 55% 86%,rgba(83,225,212,.34),transparent 34%),linear-gradient(135deg,#edf7ff,#f2efff 58%,#ecfbfa);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+    main{width:min(1040px,100%);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,.8fr);overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 28px 80px rgba(62,73,120,.2);backdrop-filter:blur(28px) saturate(155%)}
+    .summary{padding:42px;background:linear-gradient(145deg,#2878ee 0%,#6657df 55%,#924fce 100%);color:#fff}
+    .brand{font-size:14px;font-weight:800;color:#eaf5ff}
     .summary h1{margin:16px 0 10px;font-size:40px;line-height:1.15}
-    .summary p{margin:0;max-width:640px;color:#dce8e4;line-height:1.7}
+    .summary p{margin:0;max-width:640px;color:#eef4ff;line-height:1.7}
     .context{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
-    .context span{padding:7px 10px;border:1px solid rgba(255,255,255,.22);border-radius:6px;background:rgba(255,255,255,.07);font-size:12px;color:#f8e8ca}
+    .context span{padding:7px 10px;border:1px solid rgba(255,255,255,.34);border-radius:6px;background:rgba(255,255,255,.12);font-size:12px;color:#fff}
     .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:28px}
-    .fact{min-width:0;padding:13px;border-top:2px solid var(--copper);background:rgba(255,255,255,.07)}
-    .fact small{display:block;color:#bcd3cc}
-    .fact strong{display:block;margin-top:5px;color:#fff3dd;font-size:22px}
+    .fact{min-width:0;padding:13px;border-top:2px solid #70f2e5;background:rgba(255,255,255,.12)}
+    .fact small{display:block;color:#d8ecff}
+    .fact strong{display:block;margin-top:5px;color:#fff;font-size:22px}
     .fact:last-child{grid-column:1/-1}
     .actions{padding:38px;display:grid;align-content:center;gap:14px}
-    .version{width:max-content;padding:5px 9px;border:1px solid #b9d2c8;border-radius:999px;background:#edf7f2;color:var(--forest);font-size:12px;font-weight:850}
+    .version{width:max-content;padding:5px 9px;border:1px solid rgba(40,100,232,.2);border-radius:999px;background:rgba(238,245,255,.86);color:#3058b9;font-size:12px;font-weight:850}
     .actions h2{margin:4px 0 0;font-size:24px}
     .actions p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
     .button{min-height:48px;display:flex;align-items:center;justify-content:center;padding:0 16px;border-radius:7px;text-decoration:none;font-weight:850}
-    .primary{background:var(--emerald);color:#fff;box-shadow:0 12px 26px rgba(0,78,65,.2)}
-    .primary:hover{background:var(--forest)}
-    .secondary{border:1px solid var(--line);background:#fff9ef;color:var(--forest)}
-    .note{padding:10px 0 0 12px;border-left:3px solid var(--copper);color:#77543e!important}
+    .primary{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;box-shadow:0 14px 30px rgba(76,82,220,.26)}
+    .primary:hover{filter:brightness(.96)}
+    .secondary{border:1px solid rgba(40,100,232,.18);background:rgba(255,255,255,.68);color:#354a8c}
+    .note{padding:10px 0 0 12px;border-left:3px solid var(--teal);color:#53617b!important}
     @media(max-width:760px){body{padding:14px}main{grid-template-columns:1fr}.summary,.actions{padding:26px}.summary h1{font-size:30px}}
   </style>
 </head>
@@ -47,11 +47,11 @@
       <div class="facts">
         <div class="fact"><small>可切换营期</small><strong>7</strong></div>
         <div class="fact"><small>经营时点</small><strong>14</strong></div>
-        <div class="fact"><small>当前版本</small><strong>V1.5.5</strong></div>
+        <div class="fact"><small>当前版本</small><strong>V1.5.6</strong></div>
       </div>
     </section>
     <section class="actions">
-      <span class="version">同事交付包 · V1.5.5</span>
+      <span class="version">同事交付包 · V1.5.6</span>
       <h2>打开当前可用版</h2>
       <p>默认从 602 期整期经营总览进入；逐日查看 LTV、选修作业率与到课率，并用统一总配额梯形漏斗观察经营节点及同期变化。</p>
       <a class="button primary" href="dist/dashboard.html#period=602&amp;day=all&amp;module=overview&amp;view=home">打开经营看板</a>
